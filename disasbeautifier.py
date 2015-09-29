@@ -85,7 +85,8 @@ def generate_line(line, max_len):
             lines.append({'line': '', 'line_content': None})
     else:
         lines.append({'line': new_line, 'line_content': line_content})
-
+    for line in lines:
+        line['line'] = line['line'].lstrip(' ')
     return lines
 
 def parse(input_filename):
@@ -100,41 +101,43 @@ def parse(input_filename):
     jmp = {}
     for line in lines:
         if line['line_content'] and line['line_content']['instruction'].upper() in jumps:
+
             origin = line['line_content']['address']
             destination = line['line_content']['parameters'][0].split(" ", 1)[0]
             jmp[origin] = parse_address(destination)
-
     padding = 5 + len(jmp) - 1
 
     for line in lines:
         line['line'] = " "*padding  + line["line"]
 
     arrows = {}
-    i = 0
     for o, d in jmp.items():
-        is_jumping = False
-        occurences = []
-        for l, line in enumerate(lines):
-            if lines[l]['line_content']:
-                if lines[l]['line_content']['address'] == o:
-                    is_jumping = True
-                elif lines[l]['line_content']['address'] == d:
-                    is_jumping = False
-                elif is_jumping:
-                    occurences.append(lines[l]['line'][0:padding].count('|'))
-            elif is_jumping:
-                occurences.append(lines[l]['line'][0:padding].count('|'))
-
-        is_jumping = False
-
-        i = max(occurences)+1
         invert = False
         if cmp_addr(o, d) > 0:
             invert = True
         if invert:
             lines.reverse()
-        
+
+        is_jumping = False
+        occurences = []
         for l, line in enumerate(lines):
+            if is_jumping:
+                occurences.append(lines[l]['line'][0:padding].count('|') + lines[l]['line'][0:padding].count('+'))
+            if lines[l]['line_content']:
+                if lines[l]['line_content']['address'] == o:
+                    is_jumping = True
+                elif lines[l]['line_content']['address'] == d:
+                    is_jumping = False
+            
+
+            
+        is_jumping = False
+
+        i = max(occurences)*2+1
+
+        for l, line in enumerate(lines):
+            if o == '0x080484ea':
+                break
             if lines[l]['line_content']:
                 if lines[l]['line_content']['address'] == o:
                     lines[l]['line'] = " "*(padding - 3 - i) + "+" + "-"*i + "- " + lines[l]["line"][padding:]
@@ -148,6 +151,8 @@ def parse(input_filename):
                 lines[l]['line'] = " "*(padding - 3 - i) + "|" + lines[l]["line"][padding-2-i:]
         if invert:
             lines.reverse()
+
+
     leading_spaces = []
     for line in lines:
         leading_spaces.append(len(line['line']) - len(line['line'].lstrip(' ')))
