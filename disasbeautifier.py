@@ -1,5 +1,8 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
+import sys
+import os.path
+import re
 
 """
 
@@ -12,12 +15,8 @@ Usage : ./disasbeautifier.py input_file output_file
 
 """
 
-import sys
-import os.path
-import re
-
 def parse_line(line):
-    m = re.search(' +(0x[a-f0-9]+): +([a-zA-Z0-9]+) +(.*)', line)
+    m = re.search(' +(0x[a-f0-9]+)(?: <\+[0-9]+>)?: +([a-zA-Z0-9]+)(?: +(.*))?', line)
     if m:
         return {
             'address': m.group(1),
@@ -40,14 +39,18 @@ def generate_line(line, max_len):
     line_content = parse_line(line)
     
     new_line = line[:-1] + " "*diff + "; "
-    if 'call' in line:
-            m = re.search('<(.*)@(.*)>', line)
-            if m:
-                new_line += m.group(1) + "()"
+        
     if line_content:
+        print ":" + line_content['instruction'] + ":"
+        if line_content['instruction'] == 'call':
+                m = re.search('<(.*)(?:@(.*))?>', line)
+                if m:
+                    new_line += m.group(1) + "()"
+
         if (line_content['instruction'].upper() in jumps
             or line_content['instruction'] == "int3"):
             new_line += "\n"
+
         if line_content['instruction'] == "ret":
             new_line += "\n\n " + "*"*(max_len-3) + " ; \n"
     return new_line
