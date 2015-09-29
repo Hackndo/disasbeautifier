@@ -41,9 +41,8 @@ def generate_line(line, max_len):
     new_line = line[:-1] + " "*diff + "; "
         
     if line_content:
-        print ":" + line_content['instruction'] + ":"
         if line_content['instruction'] == 'call':
-                m = re.search('<(.*)(?:@(.*))?>', line)
+                m = re.search('<([a-zA-Z0-9_\-]*)(?:@(.*))?>', line)
                 if m:
                     new_line += m.group(1) + "()"
 
