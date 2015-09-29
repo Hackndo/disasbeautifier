@@ -44,11 +44,12 @@ def generate_line(line, max_len):
             m = re.search('<(.*)@(.*)>', line)
             if m:
                 new_line += m.group(1) + "()"
-    if (line_content['instruction'].upper() in jumps
-        or line_content['instruction'] == "int3"):
-        new_line += "\n"
-    if line_content['instruction'] == "ret":
-        new_line += "\n\n " + "*"*(max_len-3) + " ; \n"
+    if line_content:
+        if (line_content['instruction'].upper() in jumps
+            or line_content['instruction'] == "int3"):
+            new_line += "\n"
+        if line_content['instruction'] == "ret":
+            new_line += "\n\n " + "*"*(max_len-3) + " ; \n"
     return new_line
 
 def generate_file(input_filename, output_filename):
