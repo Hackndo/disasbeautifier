@@ -40,7 +40,7 @@ def generate_line(line, max_len):
     if line[-1:] == '\n':
         new_line = line[:-1] + " "*diff + "; "
     else:
-        new_line = line + " "*diff + "; "
+        new_line = line + " "*(diff-1) + "; "
         
     if line_content:
         if line_content['instruction'] == 'call':
