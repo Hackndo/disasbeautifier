@@ -18,7 +18,6 @@ arch = 32
 jumps = ['JMP', 'JO', 'JNO', 'JS', 'JNS', 'JE', 'JZ', 'JNE', 'JNZ', 'JB', 'JNAE', 'JC', 'JNB', 'JAE', 'JNC', 'JBE', 'JNA', 'JA', 'JNBE', 'JL', 'JNGE', 'JGE', 'JNL', 'JLE', 'JNG', 'JG', 'JNLE', 'JP', 'JPE', 'JNP', 'JPO', 'JCXZ', 'JECXZ']
 
 def parse_line(line):
-    if (line[-1:] != "\n"): line += "\n"
     m = re.search(' +(0x[a-f0-9]+)(?: <\+[0-9]+>)?: +([a-zA-Z0-9]+)(?: +([^,]*)(?:,([^,]*))?)?\n', line)
     if m:
         return {
@@ -54,6 +53,8 @@ def get_max_len(f):
 
 def generate_line(line, max_len):
     lines = []
+    if (line[-1:] != "\n"):
+        line += "\n"
     diff = max_len - len(line)
     line_content = parse_line(line)
     
