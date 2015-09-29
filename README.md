@@ -18,7 +18,7 @@ $ ./disasbeautifier.py input_file output_file
 Example
 =======
 
-Input file input.disas
+Input file `input.disas`
 
 ```
    0x0804844c <+0>:  push   ebp
@@ -57,7 +57,7 @@ Input file input.disas
 $ ./disasbeautifier.py input.disas output.disas
 ```
 
-output.disas
+Ouput file `output.disas`
 
 ```asm
    0x0804844c <+0>:  push   ebp                        ; 
