@@ -8,7 +8,7 @@ disasbeautifier.py
 Author : hackndo
 Version : 1.0
 Description : Take disas ouput from gdb (either intel or at&t syntax), parse it and write it in output_file
-Usage : ./disasbeautifier input_file output_file
+Usage : ./disasbeautifier.py input_file output_file
 
 """
 
