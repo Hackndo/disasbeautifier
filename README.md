@@ -1,12 +1,9 @@
-disasbeautifier
-==============
-
-gdb disas output beautifier
+# DisasBeautifier
 
 Description
 ===========
 
-Take disas ouput from gdb (either intel or at&t syntax), parse it and write it in output_file
+Take `disas` ouput from gdb (either intel or at&t syntax), parse it and write it in output_file
 
 Usage
 =====
@@ -111,3 +108,11 @@ Ouput example
 
  ***************************************************** ; 
 ```
+
+Contribute
+==========
+
+* Parse call arguments
+* Detect functions
+* Detect loops
+* Draw arrows for jumps
