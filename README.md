@@ -86,6 +86,7 @@ output.disas
    0x08048480 <+15>: mov    DWORD PTR [esp],0x8048540  ; 
    0x08048487 <+22>: call   0x8048330 <puts@plt>       ; puts()
    0x0804848c <+27>: jmp    0x804849e <main+45>        ; 
+
    0x0804848e <+29>: mov    eax,DWORD PTR [ebp+0xc]    ; 
    0x08048491 <+32>: add    eax,0x4                    ; 
    0x08048494 <+35>: mov    eax,DWORD PTR [eax]        ; 
@@ -93,7 +94,7 @@ output.disas
    0x08048499 <+40>: call   0x804844c <func>           ; func()
    0x0804849e <+45>: mov    eax,0x0                    ; 
    0x080484a3 <+50>: leave                             ; 
-   0x080484a4 <+51>: ret                               ; 
+   0x080484a4 <+51>: ret                                ; 
 
  ***************************************************** ; 
 ```
