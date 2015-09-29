@@ -8,8 +8,11 @@ Take `disas` ouput from gdb (either intel or at&t syntax), parse it and write it
 Usage
 =====
 
-```python
-./disasbeautifier input_file output_file
+```sh
+$ git clone git@github.com:Hackndo/disasbeautifier.git
+$ cd disasbeautifier
+$ chmod +x disasbeautifier.py
+$ ./disasbeautifier.py input_file output_file
 ```
 
 Ouput example
