@@ -18,7 +18,7 @@ arch = 32
 jumps = ['JMP', 'JO', 'JNO', 'JS', 'JNS', 'JE', 'JZ', 'JNE', 'JNZ', 'JB', 'JNAE', 'JC', 'JNB', 'JAE', 'JNC', 'JBE', 'JNA', 'JA', 'JNBE', 'JL', 'JNGE', 'JGE', 'JNL', 'JLE', 'JNG', 'JG', 'JNLE', 'JP', 'JPE', 'JNP', 'JPO', 'JCXZ', 'JECXZ']
 
 def parse_line(line):
-    m = re.search(' +(0x[a-f0-9]+)(?: <\+[0-9]+>)?: +([a-zA-Z0-9]+)(?: +([^,]*)(?:,([^,]*))?)?\n', line)
+    m = re.search(' +(0x[a-f0-9]+)(?: <\+[0-9]+>)?:(?: |\t)+([a-zA-Z0-9]+)(?: +([^,]*)(?:,([^,]*))?)?\n', line)
     if m:
         return {
             'address': parse_address(m.group(1)),
@@ -57,6 +57,7 @@ def generate_line(line, max_len):
         line += "\n"
     diff = max_len - len(line)
     line_content = parse_line(line)
+    print(line_content)
     
     # Add comments at end of line
     new_line = line[:-1] + " "*diff + "; "
@@ -172,8 +173,6 @@ def generate_file(input_filename, output_filename):
     write_file(output_filename, lines)
 
 if __name__ == "__main__":
-    sys.argv.append("/home/romain/Desktop/trap.asm")
-    sys.argv.append("./outputfile.asm")
     
     if len(sys.argv) != 3:
         sys.stderr.write("Usage : %s input output\n" % sys.argv[0])
